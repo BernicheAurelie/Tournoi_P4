@@ -1,0 +1,124 @@
+{
+    "players": {
+        "1": {
+            "name": "Berniche",
+            "first_name": "Aurelie",
+            "birthday": "07/09/1981",
+            "gender": "F",
+            "Elo_rating": 10,
+            "identification number": "Ber10",
+            "score": 4,
+            "opponents": [
+                "Har50",
+                "Dup20",
+                "Hub30",
+                "And40"
+            ]
+        },
+        "2": {
+            "name": "Dupont",
+            "first_name": "Virginie",
+            "birthday": "03/06/1975",
+            "gender": "F",
+            "Elo_rating": 20,
+            "identification number": "Dup20",
+            "score": 3,
+            "opponents": [
+                "Dup60",
+                "Ber10",
+                "And40",
+                "Hub30"
+            ]
+        },
+        "3": {
+            "name": "Hubert",
+            "first_name": "Jean-Nicolas",
+            "birthday": "25/10/1979",
+            "gender": "M",
+            "Elo_rating": 30,
+            "identification number": "Hub30",
+            "score": 2,
+            "opponents": [
+                "Car70",
+                "And40",
+                "Ber10",
+                "Dup20"
+            ]
+        },
+        "4": {
+            "name": "Andre",
+            "first_name": "Frederic",
+            "birthday": "12/02/74",
+            "gender": "M",
+            "Elo_rating": 40,
+            "identification number": "And40",
+            "score": 1,
+            "opponents": [
+                "Bou80",
+                "Hub30",
+                "Dup20",
+                "Ber10"
+            ]
+        },
+        "5": {
+            "name": "Harnichard",
+            "first_name": "Jocelyne",
+            "birthday": "27/09/1954",
+            "gender": "F",
+            "Elo_rating": 50,
+            "identification number": "Har50",
+            "score": 3,
+            "opponents": [
+                "Ber10",
+                "Dup60",
+                "Car70",
+                "Bou80"
+            ]
+        },
+        "6": {
+            "name": "Dupre",
+            "first_name": "Jean-Michel",
+            "birthday": "31/08/1951",
+            "gender": "M",
+            "Elo_rating": 60,
+            "identification number": "Dup60",
+            "score": 2,
+            "opponents": [
+                "Dup20",
+                "Har50",
+                "Bou80",
+                "Car70"
+            ]
+        },
+        "7": {
+            "name": "Carpentier",
+            "first_name": "Melanie",
+            "birthday": "15/01/78",
+            "gender": "F",
+            "Elo_rating": 70,
+            "identification number": "Car70",
+            "score": 1,
+            "opponents": [
+                "Hub30",
+                "Bou80",
+                "Har50",
+                "Dup60"
+            ]
+        },
+        "8": {
+            "name": "Bourienne",
+            "first_name": "Valentin",
+            "birthday": "04/09/2002",
+            "gender": "M",
+            "Elo_rating": 80,
+            "identification number": "Bou80",
+            "score": 0,
+            "opponents": [
+                "And40",
+                "Car70",
+                "Dup60",
+                "Har50"
+            ]
+        }
+    }
+}
