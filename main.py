@@ -12,11 +12,11 @@ if __name__ == "__main__":
     tournament.run_first_round()
     for i in range(2, 5):
         tournament.run_round(i)
-    Tournament.register_end_time(tournament)
-    #Tournament.print_end_tournament_info(tournament)
+    tournament.register_end_time()
+    tournament.print_end_tournament()
     tournament.print_players_score()
     tournament.serialized_players()
     tournament.serialized_tournament()
-    #tournament.serialized_rounds()
+
     
 

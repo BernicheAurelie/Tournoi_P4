@@ -56,9 +56,8 @@ class tournamentControler:
         # time_control = "Bullet"
         self.tournament = Tournament(name, place, start, end, time_control)
 
-    # def register_end_time(self): # pourquoi je ne peux pas utiliser utils!!!
-    #     end = datetime.now()
-    #     self.end = end.strftime("%m/%d/%Y, %H:%M:%S")
+    def register_end_time(self): # pourquoi je ne peux pas utiliser utils!!
+        self.tournament.register_end_time()
 
 
     def enter_players(self):
@@ -153,6 +152,9 @@ class tournamentControler:
         for player in self.tournament.players:
             player.print_score()
             player.print_opponents()
+    
+    def print_end_tournament(self):
+        self.tournament.print_end_tournament_info()
 
     def serialized_players(self):
         db = TinyDB("players.json", indent=4) # crée un fichier json vide
