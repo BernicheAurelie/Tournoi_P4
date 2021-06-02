@@ -18,6 +18,9 @@ class Round:
         player2.opponents.append(player1.id_player)
         self.matchs.append(match)
 
+    def add_reload_match(self, match):
+        self.matchs.append(match)
+
     def register_start_time(self):
         start = datetime.now()
         self.start = start.strftime("%m/%d/%Y, %H:%M:%S")

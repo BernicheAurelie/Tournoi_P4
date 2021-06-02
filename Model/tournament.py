@@ -28,16 +28,13 @@ class Tournament:
         self.end = end.strftime("%m/%d/%Y, %H:%M:%S")
         print(f"***** fin du tournoi: {self.end} ***** \n")
 
-    # def register_end_time(self):
-    #     self.end = datetime.now()
 
     def serialize(self):
         serialized_tournament = {"name": self.name, "place": self.place, 
         "start": self.start, "end": self.end, 
-        "time_control": self.time_control, "players": [player.serialize() for player in self.players], 
+        "time_control": self.time_control, 
+        "players": [player.serialize() for player in self.players], 
         "rounds": [round.serialize() for round in self.rounds]
         }
         return serialized_tournament
-        # tournaments = list()
-        # tournaments.append(serialized_tournament)
-        # return tournaments
+        

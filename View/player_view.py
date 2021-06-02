@@ -5,45 +5,49 @@ from Model.utils import is_date_valid
 
 
 def get_player_name():
-    name = input("Entrer le nom du joueur : ")
+    name = input("Enter player's name : ")
+    name = name.upper()
     while name.isnumeric() is True:
-        print(
-            "Veuillez saisir des caractères valides, ni chiffres ni caractères spéciaux"
-        )
-        name = input("Entrer le nom du joueur : ")
+        print("Please, check your entry.")
+        print("Only alphabetical letters")
+        name = input("Enter player's name : ")
+        name = name.upper()
     return name
 
 
 def get_player_first_name():
-    first_name = input("Entrer le prénom du joueur : ")
-    while first_name.isnumeric() is True:
-        print(
-            "Veuillez saisir des caractères valides, ni chiffres ni caractères spéciaux"
-        )
-        first_name = input("Entrer le prénom du joueur : ")
+    first_name = input("Enter player's first name : ")
+    first_name = first_name.upper()
+    while not first_name.isalpha():
+        print("Please, check your entry.")
+        print("Only alphabetical letters")
+        first_name = input("Enter player's first name : ")
+        first_name = first_name.upper()
     return first_name
 
 
 def get_player_birthday():
-    birthday = input("Entrer la date de naissance du joueur (JJ/MM/YYYY) : ")
+    birthday = input("Enter player's birth date (MM/JJ/YYYY) : ")
     while is_date_valid(birthday) is False:
-        print("date incorrecte, saisir une date au format JJ/MM/YYYY")
-        birthday = input("Entrer la date de naissance du joueur (JJ/MM/YYYY): ")
+        print("Incorrect date, enter the birth date in the format MM/DD/YYYY")
+        birthday = input("Enter player's birth date (MM/JJ/YYYY) : ")
     return birthday
 
 
 def get_player_gender():
-    gender = input("Entrer le genre du joueur (M/F): ")
+    gender = input("Enter the player gender (M/F): ")
+    gender.upper()
     while gender != "M" and gender != "F":
-        print("Veuillez saisir M pour masculin ou F pour féminin")
-        gender = input("Entrer le genre du joueur (M/F): ")
+        print("Please, enter M for male or F for female")
+        gender = input("Enter the player gender (M/F): ")
+        gender.upper()
     return gender
 
 
 def get_player_elo():
-    elo = input("Entrer le classement elo du joueur : ")
+    elo = input("Enter player's Elo rating : ")
     while not elo.isnumeric():
-        print("Veuillez saisir un nombre entier positif")
-        elo = input("Entrer le classement elo du joueur : ")
+        print("Please, enter a positive integer number")
+        elo = input("Enter player's Elo rating : ")
     return elo
 

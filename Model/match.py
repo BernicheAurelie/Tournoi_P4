@@ -16,6 +16,10 @@ class Match:
         self.score_player1 = 0
         self.score_player2 = 0
 
+    def set_score(self, score_player1, score_player2):
+        self.score_player1 = score_player1
+        self.score_player2 = score_player2
+
     def serialize(self):
         serialized_match = {
         "player1": self.player1.serialize(), "player2": self.player2.serialize(),

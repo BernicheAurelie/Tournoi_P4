@@ -17,6 +17,12 @@ class Player:
         self.id_player = self.name[0:3] + str(self.elo)
         return self.id_player
 
+    def set_score(self, score):
+        self.score =int(score)
+
+    def set_opponents(self, opponents):
+        self.opponents = opponents
+
     def __str__(self):
         out = (
             f"name:\t{self.name}\nfirst_name:\t{self.first_name}\n"

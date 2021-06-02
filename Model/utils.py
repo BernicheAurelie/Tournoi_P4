@@ -1,8 +1,8 @@
 from datetime import datetime
 
 
-def is_date_valid(date_string): #self?
-    format = "%d/%m/%Y"
+def is_date_valid(date_string): 
+    format = "%m/%d/%Y"
     try:
         datetime.strptime(date_string, format)
         return True
