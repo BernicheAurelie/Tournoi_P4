@@ -1,6 +1,8 @@
 #! Python3
 # coding: utf-8
 
+from tinydb import TinyDB
+
 
 class Player:
     def __init__(self, name, first_name, birthday, gender, elo, score=0):
@@ -27,7 +29,7 @@ class Player:
         out = (
             f"name:\t{self.name}\nfirst_name:\t{self.first_name}\n"
             f"birthday:\t{self.birthday}\ngender:\t{self.gender}\n"
-            f"Elo rating:\t{self.elo}\nidentification number:"
+            f"elo:\t{self.elo}\nidentification number:"
             f"\t{self.id_player}\nscore:\t{self.score}\n"
         )
         return out
@@ -35,10 +37,22 @@ class Player:
     def serialize(self):
         serialized_player = {"name": self.name, "first_name": self.first_name, 
         "birthday": self.birthday, "gender": self.gender, 
-        "Elo_rating": self.elo, "identification number": self.id_player, 
+        "elo": self.elo, "identification number": self.id_player, 
         "score": self.score, "opponents": self.opponents
         }
         return serialized_player
+
+    def players_deserialized():
+        db = TinyDB("players.json", indent=4) # crée un fichier json vide
+        players_table = db.table("players")
+        serialized_players = players_table.all()
+        players = list()
+        for player in serialized_players:
+            new_player = Player(player['name'], player['first_name'],
+                            player['birthday'], player['gender'], 
+                            player['elo'])
+            players.append(new_player)
+        return players
 
     def print_score(player):
         print("récapitulatif du match :")
@@ -47,4 +61,5 @@ class Player:
 
     def print_opponents(player):
         print(f"{player.name} ({player.id_player}) a joué contre :\t{player.opponents}")
+
 

@@ -1,3 +1,6 @@
+#! Python3
+# coding: utf-8
+
 def enter_score(match):
     print("scores du match :")
     print(f"player 1 :\t {match.player1.name}, score:{match.player1.score} ({match.player1.id_player})")

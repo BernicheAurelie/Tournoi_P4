@@ -1,3 +1,6 @@
+#! Python3
+# coding: utf-8
+
 from datetime import datetime
 
 
@@ -9,6 +12,8 @@ def is_date_valid(date_string):
     except ValueError:
         return False
 
-def register_end_time(self):
-    self.end = datetime.now()
-    print(f"fin : {self.end}")
+def register_end_time():
+    end = datetime.now()
+    end = end.strftime("%m/%d/%Y, %H:%M:%S")
+    print(f"fin : {end}")
+    return end

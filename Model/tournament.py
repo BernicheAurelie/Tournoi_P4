@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from datetime import datetime
+from Model.utils import register_end_time
 
 
 class Tournament:
@@ -20,14 +21,14 @@ class Tournament:
     def add_round(self, round):
         self.rounds.append(round)
 
+    def register_end_time(self): 
+        self.end = register_end_time()
+        # end = datetime.now()
+        # self.end = end.strftime("%m/%d/%Y, %H:%M:%S")
+        # print(f"***** fin du tournoi: {self.end} ***** \n")
+
     def print_end_tournament_info(self):
         print(f"***** fin du tournoi: {self.end} ***** \n")
-
-    def register_end_time(self): 
-        end = datetime.now()
-        self.end = end.strftime("%m/%d/%Y, %H:%M:%S")
-        print(f"***** fin du tournoi: {self.end} ***** \n")
-
 
     def serialize(self):
         serialized_tournament = {"name": self.name, "place": self.place, 

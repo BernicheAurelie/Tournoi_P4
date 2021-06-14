@@ -1,19 +1,19 @@
 #! Python3
 # coding utf-8
 
-from datetime import datetime
 from tinydb import TinyDB, Query, where
-import json
 from Model.tournament import Tournament
 from Model.player import Player
 from Model.match import Match
 from Model.round import Round
-from Model.utils import register_end_time
+from View.tournament_view import ReportTournament
 from View.tournament_view import (
     get_tournament_name,
     get_tournament_place,
     get_tournament_start,
     get_tournament_time_control,
+    get_confirmation,
+    get_tournaments,
     get_user_choice,
 )
 from View.player_view import (
@@ -26,12 +26,12 @@ from View.player_view import (
 from View.round_view import enter_score
 
 
-# players = [
-#     Player("BERNICHE", "AURELIE", "09/07/1981", "F", 10), Player("DUPRE", "JEAN MICHEL", "08/31/1951", "M", 60),
-#     Player("HARNICHARD", "JOCELYNE", "09/27/1954", "F", 50), Player("DUPONT", "VIRGINIE", "06/03/1975", "F", 20),
-#     Player("HUBERT", "JEAN NICOLAS", "10/25/1979", "M", 30), Player("ANDRE", "FREDERIC", "02/12/74", "M", 40),
-#     Player("CARPENTIER", "MELANIE", "01/15/78", "F", 70), Player("BOURIENNE", "VALENTIN", "09/04/2002", "M", 80)
-# ]
+players = [
+    Player("BERNICHE", "AURELIE", "09/07/1981", "F", 10), Player("DUPRE", "JEAN MICHEL", "08/31/1951", "M", 60),
+    Player("HARNICHARD", "JOCELYNE", "09/27/1954", "F", 50), Player("DUPONT", "VIRGINIE", "06/03/1975", "F", 20),
+    Player("HUBERT", "JEAN NICOLAS", "10/25/1979", "M", 30), Player("ANDRE", "FREDERIC", "02/12/74", "M", 40),
+    Player("CARPENTIER", "MELANIE", "01/15/78", "F", 70), Player("BOURIENNE", "VALENTIN", "09/04/2002", "M", 80)
+]
 
 
 class tournamentControler:
@@ -50,74 +50,156 @@ class tournamentControler:
     def new_tournament(self):
         self.start()
         self.enter_players()
-        self.run_first_round()
-        for i in range(2, 5):
-            self.run_round(i)
-        self.register_end_time()
-        self.print_end_tournament()
+        confirmation = get_confirmation()
+        if confirmation == "y":
+            self.run_first_round()
+            for i in range(2, 5):
+                confirmation = get_confirmation()
+                if confirmation == "y":
+                    self.run_round(i)
+                elif confirmation == 'n':
+                    break
+        self.tournament.register_end_time()
+        self.tournament.print_end_tournament_info()
         self.print_players_score()
         self.serialized_players()
         self.serialized_tournament()
 
+        # else:
+        #     self.tournament.register_end_time()
+        #     self.tournament.print_end_tournament_info()
+        #     self.print_players_score()
+        #     self.serialized_players()
+        #     self.serialized_tournament()
+
+        # self.tournament.register_end_time()
+        # self.tournament.print_end_tournament_info()
+        # self.print_players_score()
+        # self.serialized_players()
+        # self.serialized_tournament()
+
     def reload_tournament(self):
         db = TinyDB('tournaments.json')
         tournaments_table = db.table('tournaments')
-        tournaments=tournaments_table.all()
+        # tournaments=tournaments_table.all()
         query = Query()
-        # if len(tournaments[i]["rounds"]) < 4:
-        for i in range(len(tournaments)):
-            print(tournaments[i]["name"])
-            print("Rounds number done: ", len(tournaments[i]["rounds"]))
         name = get_user_choice()
         reload_tournament = tournaments_table.search(where("name")==name)
-        for tournament in reload_tournament:
-            self.deserializer(tournament)
-            print(len(tournament["rounds"]))
-            if len(tournament["rounds"]) == 0:
-                print("condition pour le 1er round")
-                print(len(tournament["rounds"]))
-                self.run_first_round()
-                for lefted_round in range(2,5):
+        while not reload_tournament:
+            name = get_user_choice()
+            reload_tournament = tournaments_table.search(where("name")==name)
+        tournament = reload_tournament[0]
+        self.deserializer(tournament)
+        if len(tournament["rounds"]) == 0:
+            self.run_first_round()
+            for lefted_round in range(2,5):
+                confirmation = get_confirmation()
+                if confirmation == 'y':
                     self.run_round(lefted_round)
-            else:
-                for lefted_round in range(len(tournament["rounds"])+1, 5):
+                elif confirmation == 'n':
+                    break
+        else:
+            for lefted_round in range(len(tournament["rounds"])+1, 5):
+                confirmation = get_confirmation()
+                if confirmation == 'y':
                     self.run_round(lefted_round)
-            tournaments_table.remove(query.name == tournament["name"])
-            self.register_end_time()
-            self.print_end_tournament()
-            self.print_players_score()
-            # if nom existant on remove
-            # elif
-            self.serialized_players()
-            self.serialized_tournament()
+                elif confirmation == 'n':
+                    break
+        tournaments_table.remove(query.name == tournament["name"])
+        self.tournament.register_end_time()
+        #self.tournament.print_end_tournament_info()
+        #self.print_players_score()
+        self.serialized_tournament()
         
 
-    def report_tournament(self):
+    def tournament_reports_players_alphabetic_order(self):
         db = TinyDB('tournaments.json')
         tournaments_table = db.table('tournaments')
-        tournaments=tournaments_table.all()
-        for i in range(len(tournaments)):
-            print(tournaments[i]["name"])
-            print("Rounds number done: ", len(tournaments[i]["rounds"]))
-            self.deserializer(tournaments[i])
-            self.print_end_tournament()
-            self.print_players_score()
+        get_tournaments()
+        name = get_user_choice()
+        reload_tournament = tournaments_table.search(where("name")==name)
+        while not reload_tournament:
+            name = get_user_choice()
+            reload_tournament = tournaments_table.search(where("name")==name)
+        tournament = reload_tournament[0]
+        self.deserializer(tournament)
+        report_players=ReportTournament()
+        report_players.tournament_players_alphabetic_order(tournament)
+
+    def tournament_reports_players_elo_ascending_order(self):
+        db = TinyDB('tournaments.json')
+        tournaments_table = db.table('tournaments')
+        get_tournaments()
+        name = get_user_choice()
+        reload_tournament = tournaments_table.search(where("name")==name)
+        while not reload_tournament:
+            name = get_user_choice()
+            reload_tournament = tournaments_table.search(where("name")==name)
+        tournament = reload_tournament[0]
+        self.deserializer(tournament)
+        report_players=ReportTournament()
+        report_players.tournament_players_elo_ascending_order(tournament)
+
+    def tournament_reports_players_elo_descending_order(self):
+        db = TinyDB('tournaments.json')
+        tournaments_table = db.table('tournaments')
+        get_tournaments()
+        name = get_user_choice()
+        reload_tournament = tournaments_table.search(where("name")==name)
+        while not reload_tournament:
+            name = get_user_choice()
+            reload_tournament = tournaments_table.search(where("name")==name)
+        tournament = reload_tournament[0]
+        self.deserializer(tournament)
+        report_players=ReportTournament()
+        report_players.tournament_players_elo_descending_order(tournament)
 
 
-    def register_end_time(self): # pourquoi je ne peux pas utiliser utils!!
-        self.tournament.register_end_time()
+    def tournament_reports_rounds(self):
+        db = TinyDB('tournaments.json')
+        tournaments_table = db.table('tournaments')
+        get_tournaments()
+        name = get_user_choice()
+        reload_tournament = tournaments_table.search(where("name")==name)
+        while not reload_tournament:
+            name = get_user_choice()
+            reload_tournament = tournaments_table.search(where("name")==name)
+        tournament = reload_tournament[0]
+        self.deserializer(tournament)
+        report_rounds=ReportTournament()
+        report_rounds.tournament_rounds(tournament)
+    
+    def tournament_reports_matchs(self):
+        db = TinyDB('tournaments.json')
+        tournaments_table = db.table('tournaments')
+        get_tournaments()
+        name = get_user_choice()
+        reload_tournament = tournaments_table.search(where("name")==name)
+        while not reload_tournament:
+            name = get_user_choice()
+            reload_tournament = tournaments_table.search(where("name")==name)
+        tournament = reload_tournament[0]
+        self.deserializer(tournament)
+        report_matchs=ReportTournament()
+        report_matchs.tournament_matchs(tournament)
+        # for i in range(0, len(tournament["rounds"])):
+        #     for self.match in self.tournament.rounds[i].matchs:
+        #         print("****************************** \n")
+        #         print(self.match, "\n")
+            
+
 
 
     def enter_players(self):
-        for i in range(8):
-            name = get_player_name()
-            first_name = get_player_first_name()
-            birthday = get_player_birthday()
-            gender = get_player_gender()
-            elo = get_player_elo()
-            player = Player(name, first_name, birthday, gender, elo)
-            self.tournament.add_player(player)
-        # self.tournament.players = players
+        # for i in range(8):
+            # name = get_player_name()
+            # first_name = get_player_first_name()
+            # birthday = get_player_birthday()
+            # gender = get_player_gender()
+            # elo = get_player_elo()
+            # player = Player(name, first_name, birthday, gender, elo)
+            # self.tournament.add_player(player)
+        self.tournament.players = players
 
 
     def run_first_round(self):
@@ -199,15 +281,14 @@ class tournamentControler:
             player.print_score()
             player.print_opponents()
     
-    def print_end_tournament(self):
-        self.tournament.print_end_tournament_info()
 
     def serialized_players(self):
         db = TinyDB("players.json", indent=4) # crée un fichier json vide
         players_table = db.table("players")
-        query = Query()
+        #query = Query()
         for player in self.tournament.players: #self.tournament.players:
-            # players_table.remove(query.name == player["name"])
+            # serialized_player = player.serialize()
+            # players_table.remove(query.name == serialized_player["name"])
             players_table.insert(player.serialize())
 
     def serialized_tournament(self):
@@ -230,7 +311,7 @@ class tournamentControler:
         for player in tournament["players"]:
             new_player = Player(player['name'], player['first_name'],
                         player['birthday'], player['gender'], 
-                        player['Elo_rating']
+                        player['elo']
             )
             new_player.set_score(player['score'])
             new_player.set_opponents(player['opponents'])
@@ -241,11 +322,11 @@ class tournamentControler:
             for match in round["matchs"]:
                 player1 = self.get_player(match['player1']['name'], match['player1']['first_name'],
                         match['player1']['birthday'], match['player1']['gender'],
-                        match['player1']['Elo_rating']
+                        match['player1']['elo']
                 )
                 player2= self.get_player(match['player2']['name'], match['player2']['first_name'],
                         match['player2']['birthday'], match['player2']['gender'],
-                        match['player2']['Elo_rating']
+                        match['player2']['elo']
                 )
                 new_match = Match(player1, player2)
                 new_match.set_score(match['score_player1'], match['score_player2'])

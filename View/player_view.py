@@ -1,7 +1,10 @@
 #! Python3
 # coding utf-8
 
+from tinydb import TinyDB
 from Model.utils import is_date_valid
+from Model.player import Player
+
 
 
 def get_player_name():
@@ -50,4 +53,24 @@ def get_player_elo():
         print("Please, enter a positive integer number")
         elo = input("Enter player's Elo rating : ")
     return elo
+
+class ReportPlayer:
+    
+    def players_alphabetic_order(self):
+        players = Player.players_deserialized()
+        players.sort(key=lambda x: x.name) # (, x.first_name)
+        for i in players:
+            print("****************************\n", i)
+
+    def players_elo_ascending_order(self):
+        players = Player.players_deserialized()
+        players.sort(key=lambda x: x.elo) # (, x.first_name)
+        for i in players:
+            print("****************************\n", i)
+
+    def players_elo_descending_order(self):
+        players = Player.players_deserialized()
+        players.sort(reverse=True, key=lambda x: x.elo) # (, x.first_name)
+        for i in players:
+            print("****************************\n", i)
 

@@ -1,3 +1,6 @@
+#! Python3
+# coding: utf-8
+
 from View.home_menu_view import HomeMenu
 
 
