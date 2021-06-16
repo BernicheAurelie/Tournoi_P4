@@ -62,16 +62,16 @@ def get_confirmation():
 
 
 def get_user_choice():    
-    print("which tournament do you want to reload?")
+    print("which tournament do you want to reload?\n")
     choice = input("Please, enter its name: ")
     choice = choice.upper()
-    print("")
+    print()
     while not choice.isalnum():
         print("Please, check your entry, see choices above")
-        print("which tournament do you want to reload?")
+        print("which tournament do you want to reload?\n")
         choice = input("Please, enter tournament's name: ")
         choice = choice.upper()
-        print("")
+        print()
     return choice
 
 def get_tournaments():
@@ -79,9 +79,11 @@ def get_tournaments():
     tournaments_table = db.table('tournaments')
     tournaments=tournaments_table.all()
     for i in range(len(tournaments)):
-        print(tournaments[i]["name"])
+        print(i+1, ") ", tournaments[i]["name"])
         if len(tournaments[i]["rounds"]) < 4:
-            print("lefted rounds : ", (4-len(tournaments[i]["rounds"])))
+            print("\t --> lefted rounds : ", (4-len(tournaments[i]["rounds"])))
+    print()
+
 
 class ReportTournament:
 
@@ -92,31 +94,56 @@ class ReportTournament:
         name = get_user_choice()
         reload_tournament = tournaments_table.search(where("name")==name)
         tournament = reload_tournament[0]
-        print("lieu du tournoi: \n", tournament["place"])
-        print("gestion du temps: \n", tournament["time_control"])
-        print("début du tournoi: \n", tournament["start"])
-        print("Fin du tournoi: \n", tournament["end"])
+        print("Tournament's place: \n", tournament["place"])
+        print("Tournament's time control: \n", tournament["time_control"])
+        print("Tournament's start: \n", tournament["start"])
+        print("Tournament's end: \n", tournament["end"])
 
     def tournament_rounds(self, tournament):
         for round in tournament["rounds"]:
-            print("****************************** \n")
-            print(round, "\n")
+            print(f"*************************** ROUND " , round["number"], "*************************** \n")
+            print("Start:\t ", round["start"])
+            print("End:\t ", round["end"])
+            print("======================== MATCHS ======================")
+            print()
+        self.tournament_matchs(tournament)
+        print()
 
     def tournament_matchs(self, tournament):
         for round in tournament["rounds"]:
+            i=1
             for match in round["matchs"]:
-                print("*******\n", match, "\n")
+                print("--> Match number ", i, "\n")
+                print("---------- Player 1 ----------\n")
+                if match["score_player1"]==1:
+                    print("*** Winner ***\n")
+                elif match["score_player1"]==0:
+                    print("*** Looser ***\n")
+                print("Name:\t " , match["player1"]["name"])
+                print("First name:\t " , match["player1"]["first_name"])
+                print("Birthday:\t " , match["player1"]["birthday"])
+                print("Gender:\t " , match["player1"]["gender"])
+                print("Elo:\t " , match["player1"]["elo"])
+                print("Identification number:\t " , match["player1"]["identification number"])
+                print("Score:\t", match["score_player1"], "\n")
+                print("---------- Player 2 ----------\n")
+                if match["score_player2"]==1:
+                    print("*** Winner ***\n")
+                elif match["score_player2"]==0:
+                    print("*** Looser ***\n")
+                print("Name:\t " , match["player2"]["name"])
+                print("First name:\t " , match["player2"]["first_name"])
+                print("Birthday:\t " , match["player2"]["birthday"])
+                print("Gender:\t " , match["player2"]["gender"])
+                print("Elo:\t " , match["player2"]["elo"])
+                print("Identification number:\t " , match["player2"]["identification number"])
+                # print("score:\t " , match["player2"]["score"])
+                print("Score:\t", match["score_player2"], "\n")
+                print("********************************************\n")
+                i+=1
+        print()
 
-    # def get_players_list(self, tournament):
-    #     players = list()
-    #     for player in tournament["players"]:
-    #         player = Player(player['name'], player['first_name'],
-    #                     player['birthday'], player['gender'], 
-    #                     player['elo']
-    #         )
-    #         players.append(player)
-
-    def tournament_players_alphabetic_order(self, tournament):
+    def get_players_list(self, tournament):
         players = list()
         for player in tournament["players"]:
             player = Player(player['name'], player['first_name'],
@@ -124,30 +151,22 @@ class ReportTournament:
                         player['elo']
             )
             players.append(player)
+        return players
+
+    def tournament_players_alphabetic_order(self, tournament):
+        players = self.get_players_list(tournament)
         players.sort(key=lambda x: x.name)
         for player in players:
             print(player)
 
     def tournament_players_elo_ascending_order(self, tournament):
-        players = list()
-        for player in tournament["players"]:
-            player = Player(player['name'], player['first_name'],
-                        player['birthday'], player['gender'], 
-                        player['elo']
-            )
-            players.append(player)
+        players = self.get_players_list(tournament)
         players.sort(key=lambda x: x.elo)
         for player in players:
             print(player)
 
     def tournament_players_elo_descending_order(self, tournament):
-        players = list()
-        for player in tournament["players"]:
-            player = Player(player['name'], player['first_name'],
-                        player['birthday'], player['gender'], 
-                        player['elo']
-            )
-            players.append(player)
+        players = self.get_players_list(tournament)
         players.sort(reverse=True, key=lambda x: x.elo)
         for player in players:
             print(player)

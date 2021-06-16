@@ -52,6 +52,7 @@ def get_player_elo():
     while not elo.isnumeric():
         print("Please, enter a positive integer number")
         elo = input("Enter player's Elo rating : ")
+    print()
     return elo
 
 class ReportPlayer:
