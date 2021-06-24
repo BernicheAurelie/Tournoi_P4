@@ -25,8 +25,8 @@ Dans un premier temps, vous devez créer un dossier pour ce programme afin de t�
 5) ```Python -m venv env```  : Créer l'environnement virtuel
 6) Cet environnement nécessite d'être activé via:  
 sous Windows: ```source env/scripts/activate```  
-sous Mac/Linux: ```source env/bin/activate```  
-7)```pip install -r requirements.txt```: Récupérer les modules nécessaires à l'application du code, contenus dans le fichier **requirements.txt**.  
+sous Mac/Linux: ```source env/bin/activate```
+7) ```pip install -r requirements.txt```: Récupérer les modules nécessaires à l'application du code, contenus dans le fichier **requirements.txt**.  
 
 ## Démarrage
 
