@@ -52,6 +52,35 @@ class HomeMenu:
                 is_app_run = False
 
 
+class ReportsMenu:
+    """Main menu of reports giving choice to print reports
+    for players or for tournaments"""
+
+    def print_reports_menu(self):
+        """Print different choices to the user"""
+        print("=============== REPORTS MENU ===============\n")
+        print("1: acceed to players reports")
+        print("2: acceed to tournaments reports")
+        print("3: return to Home Menu\n")
+
+    def reports_menu(self):
+        is_reports_menu = True
+        while is_reports_menu:
+            self.print_reports_menu()
+            answer = is_answer_ok(3)
+            print()
+            if answer == 1:
+                print("You're going to acceed to players reports\n")
+                report = PlayerReportsMenu()
+                report.players_reports_menu()
+            elif answer == 2:
+                print("You're going to acceed to tournaments reports\n")
+                report = TournamentReportsMenu()
+                report.tournament_reports_menu()
+            elif answer == 3:
+                is_reports_menu = False
+
+
 class PlayerReportsMenu:
     """Reports for players sorting by alphabetic order
     or in elo ascending or descending order"""
@@ -62,15 +91,14 @@ class PlayerReportsMenu:
         print("1: get player in alphabetic order")
         print("2: get players in elo ascending order")
         print("3: get players in elo descending order")
-        print("4: return to principal reports menu")
-        print("5: return to home menu\n")
+        print("4: return to principal reports menu\n")
 
     def players_reports_menu(self):
         """Reports for players sorting in several ways"""
         is_players_report_menu = True
         while is_players_report_menu:
             self.print_players_reports_menu()
-            answer = is_answer_ok(5)
+            answer = is_answer_ok(4)
             print()
             if answer == 1:
                 print("***** Sorting all players *****")
@@ -89,9 +117,6 @@ class PlayerReportsMenu:
                 reports.players_elo_descending_order()
             elif answer == 4:
                 is_players_report_menu = False
-            elif answer == 5:
-                quit = HomeMenu()
-                quit.home_menu()
 
 
 class TournamentReportsMenu:
@@ -107,15 +132,14 @@ class TournamentReportsMenu:
         print("4: See tournament's players sorted by alphabetic order ")
         print("5: See tournament's players sorted in ascending elo ")
         print("6: See tournament's players sorted in descending elo ")
-        print("7: return to principal reports menu")
-        print("8: return to home menu\n")
+        print("7: return to principal reports menu\n")
 
     def tournament_reports_menu(self):
         """Menu to print reports for tournaments"""
         is_tournament_reports_menu = True
         while is_tournament_reports_menu:
             self.print_tournament_reports_menu()
-            answer = is_answer_ok(8)
+            answer = is_answer_ok(7)
             print()
             if answer == 1:
                 print("Here is tournaments' informations\n")
@@ -145,35 +169,3 @@ class TournamentReportsMenu:
                 tournament.tournament_reports_players_elo_descending_order()
             elif answer == 7:
                 is_tournament_reports_menu = False
-            elif answer == 8:
-                quit = HomeMenu()
-                quit.home_menu()
-
-
-class ReportsMenu:
-    """Main menu of reports giving choice to print reports
-    for players or for tournaments"""
-
-    def print_reports_menu(self):
-        """Print different choices to the user"""
-        print("=============== REPORTS MENU ===============\n")
-        print("1: acceed to players reports")
-        print("2: acceed to tournaments reports")
-        print("3: return to Home Menu\n")
-
-    def reports_menu(self):
-        is_reports_menu = True
-        while is_reports_menu:
-            self.print_reports_menu()
-            answer = is_answer_ok(3)
-            print()
-            if answer == 1:
-                print("You're going to acceed to players reports\n")
-                report = PlayerReportsMenu()
-                report.players_reports_menu()
-            elif answer == 2:
-                print("You're going to acceed to tournaments reports\n")
-                report = TournamentReportsMenu()
-                report.tournament_reports_menu()
-            elif answer == 3:
-                is_reports_menu = False

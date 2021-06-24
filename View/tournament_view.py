@@ -100,11 +100,14 @@ class ReportTournament:
         get_tournaments()
         name = get_user_choice()
         reload_tournament = tournaments_table.search(where("name") == name)
-        tournament = reload_tournament[0]
-        print("Tournament's place:\t\t", tournament["place"])
-        print("Tournament's speed game:\t", tournament["time_control"])
-        print("Tournament's start:\t\t", tournament["start"])
-        print("Tournament's end:\t\t", tournament["end"], "\n")
+        try:
+            tournament = reload_tournament[0]
+            print("Tournament's place:\t\t", tournament["place"])
+            print("Tournament's speed game:\t", tournament["time_control"])
+            print("Tournament's start:\t\t", tournament["start"])
+            print("Tournament's end:\t\t", tournament["end"], "\n")
+        except IndexError:
+            print("Tournament not found")
 
     def tournament_rounds(self, tournament):
         """Print rounds' informations"""

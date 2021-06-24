@@ -27,7 +27,7 @@ from View.player_view import (
     get_player_elo,
     get_player_first_name,
     get_player_gender,
-    get_player_name,
+    get_player_name
 )
 from View.round_view import enter_score
 
@@ -288,6 +288,7 @@ class TournamentController:
                     break
         tournaments_table.remove(query.name == tournament["name"])
         self.tournament.register_end_time()
+        self.print_players_score()
         self.serialized_tournament()
 
     def tournament_reports_players_alphabetic_order(self):

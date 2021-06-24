@@ -80,5 +80,5 @@ class Player:
     def print_opponents(player):
         """Print player's opponents at the end of the match"""
         print(
-            f"{player.name} ({player.id_player})\t played against :\t{player.opponents}"
+            f"{player.name} ({player.id_player})\t played against :\t{player.opponents}\n"
         )

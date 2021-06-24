@@ -42,11 +42,11 @@ def get_player_birthday():
 
 def get_player_gender():
     gender = input("Enter the player gender (M/F): ")
-    gender.upper()
+    gender = gender.upper()
     while gender != "M" and gender != "F":
         print("Please, enter M for male or F for female")
         gender = input("Enter the player gender (M/F): ")
-        gender.upper()
+        gender = gender.upper()
     return gender
 
 
