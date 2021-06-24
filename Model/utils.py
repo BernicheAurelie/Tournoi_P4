@@ -4,7 +4,11 @@
 from datetime import datetime
 
 
-def is_date_valid(date_string): 
+"""Some functions define for differentes classes"""
+
+
+def is_date_valid(date_string):
+    """Check date format to serialize it"""
     format = "%m/%d/%Y"
     try:
         datetime.strptime(date_string, format)
@@ -12,21 +16,22 @@ def is_date_valid(date_string):
     except ValueError:
         return False
 
+
 def register_end_time():
+    """Register time and adapts it to serialization"""
     end = datetime.now()
     end = end.strftime("%m/%d/%Y, %H:%M:%S")
-    print(f"fin : {end}")
     return end
 
+
 def is_answer_ok(max_input):
+    """Check validity of the user answer.
+    It must be an number in the given range"""
     input_user = input("Enter your choice  : ")
-    while not input_user.isnumeric() or not int(input_user) > 0 or not int(input_user) <= max_input:
+    while (
+        not input_user.isnumeric()
+        or not int(input_user) > 0
+        or not int(input_user) <= max_input
+    ):
         input_user = input("Please, Enter your choice : ")
     return int(input_user)
-
-    # def is_answer_ok( user_input, max_input):
-    #     while not user_input.isnumeric():
-    #         user_input = input("Please, enter your choice : ")
-    #     user_input = int(user_input)
-    #     while user_input > 0 and user_input <= max_input:
-    #         return user_input
