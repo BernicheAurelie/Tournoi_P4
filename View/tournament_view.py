@@ -180,6 +180,7 @@ class ReportTournament:
                 player["birthday"],
                 player["gender"],
                 player["elo"],
+                player["score"]
             )
             players.append(player)
         return players

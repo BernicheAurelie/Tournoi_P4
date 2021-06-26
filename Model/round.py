@@ -1,14 +1,13 @@
 #! env/bin/script Python 3
 # coding utf-8
 
-from Model.utils import register_end_time
+from Model.utils import register_time
 from Model.match import Match
-from datetime import datetime
 
 
 class Round:
 
-    def __init__(self, number, start = register_end_time(), end = "On going"):
+    def __init__(self, number, start = "On going", end = "On going"):
         """Define with a number, a start and an end time
         and a matchs' list"""
         self.number = number
@@ -28,24 +27,16 @@ class Round:
         self.matchs.append(match)
 
     def register_start_time(self):
-        """Register round's start time and adapts it to the deserialization"""
-        start = datetime.now()
-        self.start = start.strftime("%m/%d/%Y, %H:%M:%S")
+        """Use Utils function to register round's start and print it to the user"""
+        self.start = register_time()
+        print(f"Round: {self.number}\nRound's Start: {self.start}\n")
         return self.start
 
     def register_end_time(self):
         """Use Utils function to register round's end and print it to the user"""
-        self.end = register_end_time()
+        self.end = register_time()
         print(f"Round's End: {self.end}\n")
         return self.end
-
-    def print_start_round_info(self):
-        """Print round's start informations"""
-        print(f"Round: {self.number}\nRound's Start: {self.start}\n")
-
-    # def print_end_round_info(self):
-    #     """Print round's end informations"""
-    #     print(f"Round: {self.number}\nRound's End: {self.end}\n")
 
     def serialize(self):
         """Create a dictionary to serialize a round"""

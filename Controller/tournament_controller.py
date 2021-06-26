@@ -86,7 +86,7 @@ class TournamentController:
         Handle score with match results obtained from the user"""
         self.tournament.players.sort(key=lambda x: x.elo)
         round = Round("1")
-        round.print_start_round_info()
+        round.register_start_time()
         self.tournament.add_round(round)
         for i in range(4):
             player1 = self.tournament.players[i]
@@ -116,7 +116,7 @@ class TournamentController:
         Handle score and print round's informations like for round one"""
         i = 0
         round = Round(round_number)
-        round.print_start_round_info()
+        round.register_start_time()
         next_round_players = self.get_players_for_round()
         self.tournament.add_round(round)
         while len(next_round_players) > 0:
@@ -181,7 +181,7 @@ class TournamentController:
         tournaments_table = db.table("tournaments")
         tournaments_table.insert(self.tournament.serialize())
 
-    def get_player(self, name, first_name, birthday, gender, elo):
+    def get_player(self, name, first_name, birthday, gender, elo, score):
         """Get player to define a match when we reload a tournament"""
         for player in self.tournament.players:
             if (
@@ -190,6 +190,7 @@ class TournamentController:
                 and player.birthday == birthday
                 and player.gender == gender
                 and player.elo == elo
+                and player.score == score
             ):
                 return player
 
@@ -211,6 +212,7 @@ class TournamentController:
                 player["birthday"],
                 player["gender"],
                 player["elo"],
+                player["score"]
             )
             new_player.set_score(player["score"])
             new_player.set_opponents(player["opponents"])
@@ -225,6 +227,7 @@ class TournamentController:
                     match["player1"]["birthday"],
                     match["player1"]["gender"],
                     match["player1"]["elo"],
+                    match["player1"]["score"]
                 )
                 player2 = self.get_player(
                     match["player2"]["name"],
@@ -232,6 +235,7 @@ class TournamentController:
                     match["player2"]["birthday"],
                     match["player2"]["gender"],
                     match["player2"]["elo"],
+                    match["player2"]["score"]
                 )
                 new_match = Match(player1, player2)
                 new_match.set_score(match["score_player1"], match["score_player2"])

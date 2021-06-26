@@ -17,11 +17,11 @@ def is_date_valid(date_string):
         return False
 
 
-def register_end_time():
+def register_time():
     """Register time and adapts it to serialization"""
-    end = datetime.now()
-    end = end.strftime("%m/%d/%Y, %H:%M:%S")
-    return end
+    time = datetime.now()
+    time = time.strftime("%m/%d/%Y, %H:%M:%S")
+    return time
 
 
 def is_answer_ok(max_input):

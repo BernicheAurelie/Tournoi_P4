@@ -68,6 +68,7 @@ class Player:
                 player["birthday"],
                 player["gender"],
                 player["elo"],
+                player["score"]
             )
             players.append(new_player)
         return players

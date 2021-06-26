@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-from Model.utils import register_end_time
+from Model.utils import register_time
 
 
 class Tournament:
@@ -29,7 +29,7 @@ class Tournament:
 
     def register_end_time(self):
         """Use utils functions and print tournament's end"""
-        self.end = register_end_time()
+        self.end = register_time()
         print(f"Tournament's End: {self.end}\n")
 
     def serialize(self):
