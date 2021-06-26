@@ -32,18 +32,6 @@ from View.player_view import (
 from View.round_view import enter_score
 
 
-players = [
-    Player("BERNICHE", "AURELIE", "09/07/1981", "F", 10),
-    Player("DUPRE", "JEAN MICHEL", "08/31/1951", "M", 60),
-    Player("HARNICHARD", "JOCELYNE", "09/27/1954", "F", 50),
-    Player("DUPONT", "VIRGINIE", "06/03/1975", "F", 20),
-    Player("HUBERT", "JEAN NICOLAS", "10/25/1979", "M", 30),
-    Player("ANDRE", "FREDERIC", "02/12/74", "M", 40),
-    Player("CARPENTIER", "MELANIE", "01/15/78", "F", 70),
-    Player("BOURIENNE", "VALENTIN", "09/04/2002", "M", 80),
-]
-
-
 class TournamentController:
     """Controle all tournament actions, enter player, run rounds, update score with match's results
     reload tournament to continue it or to print informations"""
@@ -90,12 +78,11 @@ class TournamentController:
             elo = get_player_elo()
             player = Player(name, first_name, birthday, gender, elo)
             self.tournament.add_player(player)
-        # self.tournament.players = players
 
     def run_first_round(self):
         """Add round and print its informations.
-        Sort players list in elo order, add match
-        with player 1 and player 5 and so on.
+        Sort players list in elo order,
+        Add match with player 1 and player 5 and so on.
         Handle score with match results obtained from the user"""
         self.tournament.players.sort(key=lambda x: x.elo)
         round = Round("1")
@@ -117,8 +104,8 @@ class TournamentController:
         next_round_players = list()
         for player in self.tournament.players:
             next_round_players.append(player)
-        next_round_players.sort(key=lambda x: x.elo)  # elo
-        next_round_players.sort(reverse=True, key=lambda x: x.score)  # score
+        next_round_players.sort(key=lambda x: x.elo)
+        next_round_players.sort(reverse=True, key=lambda x: x.score)
         return next_round_players
 
     def run_round(self, round_number):
@@ -230,7 +217,7 @@ class TournamentController:
             self.tournament.add_player(new_player)
 
         for round in tournament["rounds"]:
-            new_round = Round(round["number"])
+            new_round = Round(round["number"], round["start"], round["end"])
             for match in round["matchs"]:
                 player1 = self.get_player(
                     match["player1"]["name"],
@@ -253,7 +240,7 @@ class TournamentController:
 
     def reload_tournament_name(self):
         """Reload a tournament from the tinydb DB, asking tournament's name to the user"""
-        db = TinyDB("tournaments.json")
+        db = TinyDB("tournaments.json", indent=4)
         tournaments_table = db.table("tournaments")
         get_tournaments()
         name = get_user_choice()
@@ -266,7 +253,7 @@ class TournamentController:
 
     def reload_tournament(self):
         """Reload tournament, run remaining rounds and serialize it"""
-        db = TinyDB("tournaments.json")
+        db = TinyDB("tournaments.json", indent=4)
         tournaments_table = db.table("tournaments")
         query = Query()
         tournament = self.reload_tournament_name()

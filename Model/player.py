@@ -57,7 +57,7 @@ class Player:
 
     def players_deserialized():
         """Deserialise players from DB and append players' list"""
-        db = TinyDB("players.json", indent=4)  # crée un fichier json vide
+        db = TinyDB("players.json", indent=4)
         players_table = db.table("players")
         serialized_players = players_table.all()
         players = list()

@@ -8,12 +8,12 @@ from datetime import datetime
 
 class Round:
 
-    def __init__(self, number):
+    def __init__(self, number, start = register_end_time(), end = "On going"):
         """Define with a number, a start and an end time
         and a matchs' list"""
         self.number = number
-        self.start = self.register_start_time()
-        self.end = "On going"
+        self.start = start
+        self.end = end
         self.matchs = list()
 
     def add_match(self, player1, player2):
@@ -42,6 +42,10 @@ class Round:
     def print_start_round_info(self):
         """Print round's start informations"""
         print(f"Round: {self.number}\nRound's Start: {self.start}\n")
+
+    # def print_end_round_info(self):
+    #     """Print round's end informations"""
+    #     print(f"Round: {self.number}\nRound's End: {self.end}\n")
 
     def serialize(self):
         """Create a dictionary to serialize a round"""

@@ -11,6 +11,9 @@ from tinydb import TinyDB, Query
 
 
 class PlayerController:
+    """Initialize with player's name and first name obtained from the vue
+    and modify elo in the players' DB"""
+
     def __init__(self) -> None:
         self.name = get_player_name()
         self.first_name = get_player_first_name()

@@ -126,20 +126,21 @@ class TournamentReportsMenu:
     def print_tournament_reports_menu(self):
         """Print different choices to the user"""
         print("=============== TOURNAMENT REPORTS MENU ===============\n")
-        print("1: See all tournaments")
+        print("1: See tournaments' informations")
         print("2: See all rounds from a tournament")
         print("3: See all matchs from a tournament")
         print("4: See tournament's players sorted by alphabetic order ")
         print("5: See tournament's players sorted in ascending elo ")
         print("6: See tournament's players sorted in descending elo ")
-        print("7: return to principal reports menu\n")
+        print("7: See tournament's list")
+        print("8: return to principal reports menu\n")
 
     def tournament_reports_menu(self):
         """Menu to print reports for tournaments"""
         is_tournament_reports_menu = True
         while is_tournament_reports_menu:
             self.print_tournament_reports_menu()
-            answer = is_answer_ok(7)
+            answer = is_answer_ok(8)
             print()
             if answer == 1:
                 print("Here is tournaments' informations\n")
@@ -168,4 +169,7 @@ class TournamentReportsMenu:
                 tournament = TournamentController()
                 tournament.tournament_reports_players_elo_descending_order()
             elif answer == 7:
+                tournament = ReportTournament()
+                tournament.all_tournaments()
+            elif answer == 8:
                 is_tournament_reports_menu = False

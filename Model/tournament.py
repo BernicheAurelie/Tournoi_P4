@@ -14,7 +14,7 @@ class Tournament:
         self.name = name
         self.place = place
         self.start = start
-        self.end = "On going"  # self.register_end_time()
+        self.end = "On going"
         self.time_control = time_control
         self.players = list()
         self.rounds = list()

@@ -107,7 +107,7 @@ class ReportTournament:
             print("Tournament's start:\t\t", tournament["start"])
             print("Tournament's end:\t\t", tournament["end"], "\n")
         except IndexError:
-            print("Tournament not found")
+            print("Tournament not found\n")
 
     def tournament_rounds(self, tournament):
         """Print rounds' informations"""
@@ -204,3 +204,6 @@ class ReportTournament:
         players.sort(reverse=True, key=lambda x: x.elo)
         for player in players:
             print(player)
+
+    def all_tournaments(self):
+        get_tournaments()
