@@ -26,7 +26,7 @@ class Player:
 
     def set_score(self, score):
         """Update score at the deserialisation"""
-        self.score = int(score)
+        self.score = score
 
     def set_opponents(self, opponents):
         """Update opponents list at the deserialisation"""
@@ -40,6 +40,18 @@ class Player:
             f"\t{self.id_player}\nscore:\t\t\t{self.score}\n"
         )
         return out
+
+    def serialize_player_in_player_db(self):
+        """Return a dictionary to serialise player in DB"""
+        serialized_player = {
+            "name": self.name,
+            "first_name": self.first_name,
+            "birthday": self.birthday,
+            "gender": self.gender,
+            "elo": self.elo,
+            "identification number": self.id_player
+        }
+        return serialized_player
 
     def serialize(self):
         """Return a dictionary to serialise player in DB"""
@@ -67,8 +79,7 @@ class Player:
                 player["first_name"],
                 player["birthday"],
                 player["gender"],
-                player["elo"],
-                player["score"]
+                player["elo"]
             )
             players.append(new_player)
         return players

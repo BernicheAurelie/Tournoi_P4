@@ -89,6 +89,10 @@ def get_tournaments():
     print()
 
 
+def print_error_serialization():
+    print("Warning, tournament backup failed")
+
+
 class ReportTournament:
     """get tournament asking its name to the user and print several informations"""
 

@@ -21,6 +21,7 @@ from View.tournament_view import (
     get_confirmation,
     get_tournaments,
     get_user_choice,
+    print_error_serialization
 )
 from View.player_view import (
     get_player_birthday,
@@ -94,7 +95,7 @@ class TournamentController:
             round.add_match(player1, player2)
 
         for match in self.tournament.rounds[0].matchs:
-            self.__handle_score(match)
+            self._handle_score(match)
 
         round.register_end_time()
 
@@ -140,11 +141,11 @@ class TournamentController:
             i = 0
 
         for match in self.tournament.rounds[round_number - 1].matchs:
-            self.__handle_score(match)
+            self._handle_score(match)
 
         round.register_end_time()
 
-    def __handle_score(self, match):
+    def _handle_score(self, match):
         """From match results obtained by the user entry,
         add point to the player's score"""
         score = enter_score(match)
@@ -170,16 +171,19 @@ class TournamentController:
 
     def serialized_players(self):
         """Serialize tournament's players in the player DB"""
-        db = TinyDB("players.json", indent=4)
+        db = TinyDB("players.json", indent=4, separators=(" , ", " : "))
         players_table = db.table("players")
         for player in self.tournament.players:
-            players_table.insert(player.serialize())
+            players_table.insert(player.serialize_player_in_player_db())
 
     def serialized_tournament(self):
         """Serialize tournament in the tournament DB"""
-        db = TinyDB("tournaments.json", indent=4)
+        db = TinyDB("tournaments.json", indent=4, separators=(" , ", " : "))
         tournaments_table = db.table("tournaments")
-        tournaments_table.insert(self.tournament.serialize())
+        try:
+            tournaments_table.insert(self.tournament.serialize())
+        except AttributeError:
+            print_error_serialization()
 
     def get_player(self, name, first_name, birthday, gender, elo, score):
         """Get player to define a match when we reload a tournament"""
@@ -211,8 +215,7 @@ class TournamentController:
                 player["first_name"],
                 player["birthday"],
                 player["gender"],
-                player["elo"],
-                player["score"]
+                player["elo"]
             )
             new_player.set_score(player["score"])
             new_player.set_opponents(player["opponents"])
@@ -244,7 +247,7 @@ class TournamentController:
 
     def reload_tournament_name(self):
         """Reload a tournament from the tinydb DB, asking tournament's name to the user"""
-        db = TinyDB("tournaments.json", indent=4)
+        db = TinyDB("tournaments.json", indent=4, separators=(" , ", " : "))
         tournaments_table = db.table("tournaments")
         get_tournaments()
         name = get_user_choice()
@@ -257,7 +260,7 @@ class TournamentController:
 
     def reload_tournament(self):
         """Reload tournament, run remaining rounds and serialize it"""
-        db = TinyDB("tournaments.json", indent=4)
+        db = TinyDB("tournaments.json", indent=4, separators=(" , ", " : "))
         tournaments_table = db.table("tournaments")
         query = Query()
         tournament = self.reload_tournament_name()

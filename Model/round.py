@@ -7,7 +7,7 @@ from Model.match import Match
 
 class Round:
 
-    def __init__(self, number, start = "On going", end = "On going"):
+    def __init__(self, number, start="On going", end="On going"):
         """Define with a number, a start and an end time
         and a matchs' list"""
         self.number = number

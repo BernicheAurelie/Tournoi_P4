@@ -13,7 +13,7 @@ and class ReportPlayer to print players informations"""
 def get_player_name():
     name = input("Enter player's name : ")
     name = name.upper()
-    while not name.isalpha() :
+    while not name.isalpha():
         print("Please, check your entry.")
         print("Only alphabetical letters")
         name = input("Enter player's name : ")
